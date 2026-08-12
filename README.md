@@ -13,28 +13,37 @@ repeatable, so issues get caught early instead of during an incident.
 ## Features
 
 - ✅ **Replication Health Check** — identifies domain controllers with failing, stale, or unknown replication status
-- 🔜 **DNS Zone/Record Validation** — *(coming soon)*
-- 🔜 **FSMO Role Health Check** — *(coming soon)*
+- ✅ **DNS Zone/Record Validation** — checks SRV records, A records, PTR consistency, and AD-integrated zone configuration
+- ✅ **FSMO Role Health Check** — verifies all 5 FSMO role holders are assigned, online, and reachable
 
 ## Requirements
 
 - PowerShell 5.1 or later
 - ActiveDirectory PowerShell module (RSAT-AD-PowerShell feature)
-- Read access to AD replication metadata (typically Domain Admin or delegated permissions)
+- DnsServer PowerShell module (RSAT-DNS-Server feature) — required for DNS health checks
+- Read access to AD replication metadata, DNS zones, and forest/domain configuration (typically Domain Admin or delegated permissions)
 
 ## Installation
 
-Clone this repository or download the script directly:
+Clone this repository or download the scripts directly:
 
     git clone https://github.com/sandeep6891/AD-HealthCheck-Toolkit.git
 
-Then import the function:
+**Option A — Import the full module (recommended):**
+
+    Import-Module .\AD-HealthCheck-Toolkit.psm1
+
+This makes all three functions available: `Test-ADReplicationHealth`, `Test-ADDNSHealth`, `Test-FSMORoleHealth`.
+
+**Option B — Import individual scripts:**
 
     . .\Functions\Test-ADReplicationHealth.ps1
+    . .\Functions\Test-ADDNSHealth.ps1
+    . .\Functions\Test-FSMORoleHealth.ps1
 
 ## Usage
 
-**Basic check (console output only):**
+**Replication health check:**
 
     Test-ADReplicationHealth
 
@@ -45,6 +54,22 @@ Then import the function:
 **With a custom staleness threshold (e.g., flag anything older than 12 hours):**
 
     Test-ADReplicationHealth -MaxReplicationAgeHours 12
+
+**DNS health check:**
+
+    Test-ADDNSHealth
+
+**With HTML report export:**
+
+    Test-ADDNSHealth -OutputPath "C:\Reports\ADDNSHealth.html"
+
+**FSMO role health check:**
+
+    Test-FSMORoleHealth
+
+**With HTML report export:**
+
+    Test-FSMORoleHealth -OutputPath "C:\Reports\FSMOHealth.html"
 
 ## Sample Output
 
@@ -61,14 +86,14 @@ Then import the function:
 ## Roadmap
 
 - [x] Replication health check
-- [ ] DNS zone and record validation
-- [ ] FSMO role holder health check
-- [ ] Combined module (.psm1) for one-line import of all checks
+- [x] DNS zone and record validation
+- [x] FSMO role holder health check
+- [x] Combined module (.psm1) for one-line import of all checks
 
 ## Notes
 
-This is an evolving project — I'm adding DNS and FSMO checks next based on what I've found 
-most useful in real environments. Feedback and PRs welcome.
+This is an evolving project — feedback, issues, and PRs are welcome. Future ideas include 
+Group Policy health checks and a scheduled-task/reporting wrapper for automated monitoring.
 
 ## License
 
