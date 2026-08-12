@@ -102,5 +102,8 @@ MIT License — free to use, modify, and distribute.
 ## Author
 
 **Sandeep Kumar Reddy Lingampalli**
-Enterprise IT Infrastructure | Cloud & Virtualization | Active Directory, Azure, VMware
+## Author
+
+**Sandeep Kumar Reddy Lingampalli**
+Enterprise IT Infrastructure | Security and Compliance | CloudOps | Azure, AWS, GCP | Active Directory, Wintel & Virtualization | Office 365, Exchange Online, SharePoint Online, OneDrive
 [LinkedIn](https://www.linkedin.com/in/sandeep-kumar-reddy-744a5b66/)
