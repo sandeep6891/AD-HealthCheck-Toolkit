@@ -4,7 +4,6 @@
     ModuleVersion      = '1.0.0'
     GUID               = 'bee307ac-009c-457c-a50f-f12a932720db'
     Author             = 'Sandeep Kumar Reddy Lingampalli'
-    CompanyName        = 'Unknown'
     Copyright          = '(c) 2026 Sandeep Kumar Reddy Lingampalli. All rights reserved.'
     Description        = 'A PowerShell toolkit for proactive Active Directory health monitoring - checks replication health, DNS zone/record validation, and FSMO role holder reachability to help sysadmins catch issues before they cause outages.'
 
