@@ -21,6 +21,8 @@
     Test-ADReplicationHealth -OutputPath "C:\Reports\ADReplHealth.html" -MaxReplicationAgeHours 12
 
 .NOTES
+    Author: Sandeep Kumar Reddy Lingampalli
+    GitHub: https://github.com/sandeep6891/AD-HealthCheck-Toolkit
     Requires: ActiveDirectory PowerShell module (RSAT-AD-PowerShell)
     Requires: Domain Admin or delegated read access to replication metadata
 #>
