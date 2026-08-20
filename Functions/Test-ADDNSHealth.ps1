@@ -18,6 +18,8 @@
     Test-ADDNSHealth -OutputPath "C:\Reports\ADDNSHealth.html"
 
 .NOTES
+    Author: Sandeep Kumar Reddy Lingampalli
+    GitHub: https://github.com/sandeep6891/AD-HealthCheck-Toolkit
     Requires: ActiveDirectory and DnsServer PowerShell modules
     Requires: Read access to DNS zones and AD replication metadata
     Recommended: Run from or against a domain controller with DNS Server role installed
