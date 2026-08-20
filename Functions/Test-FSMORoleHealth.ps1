@@ -19,6 +19,8 @@
     Test-FSMORoleHealth -OutputPath "C:\Reports\FSMOHealth.html"
 
 .NOTES
+    Author: Sandeep Kumar Reddy Lingampalli
+    GitHub: https://github.com/sandeep6891/AD-HealthCheck-Toolkit
     Requires: ActiveDirectory PowerShell module
     Requires: Read access to forest and domain configuration
 #>
