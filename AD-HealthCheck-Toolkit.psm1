@@ -11,6 +11,7 @@
 
 .NOTES
     Author: Sandeep Kumar Reddy Lingampalli
+    GitHub: https://github.com/sandeep6891/AD-HealthCheck-Toolkit
     Requires: ActiveDirectory and DnsServer PowerShell modules (RSAT)
 #>
 
