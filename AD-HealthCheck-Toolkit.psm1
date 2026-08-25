@@ -42,5 +42,6 @@ foreach ($file in $FunctionFiles) {
 Export-ModuleMember -Function @(
     'Test-ADReplicationHealth',
     'Test-ADDNSHealth',
-    'Test-FSMORoleHealth'
+    'Test-FSMORoleHealth',
+    'Send-ADHealthReport'
 )
