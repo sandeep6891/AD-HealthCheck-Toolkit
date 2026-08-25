@@ -14,7 +14,7 @@
     FunctionsToExport  = @(
         'Test-ADReplicationHealth',
         'Test-ADDNSHealth',
-        'Test-FSMORoleHealth'
+        'Test-FSMORoleHealth',
         'Send-ADHealthReport'
     )
 
