@@ -8,6 +8,7 @@
       - Test-ADReplicationHealth
       - Test-ADDNSHealth
       - Test-FSMORoleHealth
+      - Send-ADHealthReport
 
 .NOTES
     Author: Sandeep Kumar Reddy Lingampalli
