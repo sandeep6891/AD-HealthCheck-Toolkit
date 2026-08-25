@@ -4,17 +4,15 @@ A PowerShell toolkit for proactive Active Directory health monitoring — helpin
 
 ## Why this exists
 
-During my time managing enterprise AD environments with 1000+ servers, I saw how easily 
-replication issues could go unnoticed until they caused real problems — a stale replication 
-link between sites, for example, isn't always obvious until users start seeing inconsistent 
-group policy or authentication failures. I built this toolkit to make these checks fast and 
-repeatable, so issues get caught early instead of during an incident.
+During my time managing enterprise AD environments with 1000+ servers, I saw how easily replication issues could go unnoticed until they caused real problems — a stale replication link between sites, for example, isn't always obvious until users start seeing inconsistent group policy or authentication failures. 
+I built this toolkit to make these checks fast and repeatable, so issues get caught early instead of during an incident.
 
 ## Features
 
 - ✅ **Replication Health Check** — identifies domain controllers with failing, stale, or unknown replication status
 - ✅ **DNS Zone/Record Validation** — checks SRV records, A records, PTR consistency, and AD-integrated zone configuration
 - ✅ **FSMO Role Health Check** — verifies all 5 FSMO role holders are assigned, online, and reachable
+- ✅ **Automated Email Reporting** — runs all three checks and emails a combined HTML report, ideal for scheduled monitoring
 
 ## Requirements
 
@@ -22,7 +20,8 @@ repeatable, so issues get caught early instead of during an incident.
 - ActiveDirectory PowerShell module (RSAT-AD-PowerShell feature)
 - DnsServer PowerShell module (RSAT-DNS-Server feature) — required for DNS health checks
 - Read access to AD replication metadata, DNS zones, and forest/domain configuration (typically Domain Admin or delegated permissions)
-
+- SMTP relay access (for Send-ADHealthReport email functionality)
+  
 ## Installation
 
 Clone this repository or download the scripts directly:
@@ -33,7 +32,7 @@ Clone this repository or download the scripts directly:
 
     Import-Module .\AD-HealthCheck-Toolkit.psm1
 
-This makes all three functions available: `Test-ADReplicationHealth`, `Test-ADDNSHealth`, `Test-FSMORoleHealth`.
+This makes all four functions available: `Test-ADReplicationHealth`, `Test-ADDNSHealth`, `Test-FSMORoleHealth`, `Send-ADHealthReport`.
 
 **Option B — Import individual scripts:**
 
@@ -71,6 +70,14 @@ This makes all three functions available: `Test-ADReplicationHealth`, `Test-ADDN
 
     Test-FSMORoleHealth -OutputPath "C:\Reports\FSMOHealth.html"
 
+**Send a combined health report via email:**
+
+    Send-ADHealthReport -SmtpServer "mail.contoso.com" -From "adhealth@contoso.com" -To "it-team@contoso.com"
+
+**With SSL/custom port (e.g., Office 365):**
+
+    Send-ADHealthReport -SmtpServer "smtp.office365.com" -From "adhealth@contoso.com" -To "it-team@contoso.com" -SmtpPort 587 -UseSsl
+
 ## Sample Output
 
     === AD Replication Health Summary ===
@@ -89,6 +96,8 @@ This makes all three functions available: `Test-ADReplicationHealth`, `Test-ADDN
 - [x] DNS zone and record validation
 - [x] FSMO role holder health check
 - [x] Combined module (.psm1) for one-line import of all checks
+- [x] Automated email alerting (Send-ADHealthReport)
+- [ ] SYSVOL/DFSR replication health check (in progress — see Issue #1)
 
 ## Notes
 
@@ -99,9 +108,6 @@ Group Policy health checks and a scheduled-task/reporting wrapper for automated 
 
 MIT License — free to use, modify, and distribute.
 
-## Author
-
-**Sandeep Kumar Reddy Lingampalli**
 ## Author
 
 **Sandeep Kumar Reddy Lingampalli**
