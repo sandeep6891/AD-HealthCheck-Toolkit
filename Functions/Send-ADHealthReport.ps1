@@ -3,9 +3,10 @@
     Runs all AD health checks and emails a combined HTML report.
 
 .DESCRIPTION
-    This function runs Test-ADReplicationHealth, Test-ADDNSHealth, and 
-    Test-FSMORoleHealth, combines the results into a single HTML report, 
-    and emails it via SMTP. Useful for scheduled, unattended health monitoring.
+    This function runs Test-ADReplicationHealth, Test-ADDNSHealth, 
+    Test-FSMORoleHealth, and Test-SysvolReplicationHealth, combines the results 
+    into a single HTML report, and emails it via SMTP. Useful for scheduled, 
+    unattended health monitoring.
 
 .PARAMETER SmtpServer
     The SMTP server to send the report through.
@@ -66,6 +67,7 @@ function Send-ADHealthReport {
     $replicationResults = Test-ADReplicationHealth
     $dnsResults = Test-ADDNSHealth
     $fsmoResults = Test-FSMORoleHealth
+    $sysvolResults = Test-SysvolReplicationHealth
 
     $style = @"
 <style>
@@ -89,7 +91,10 @@ function Send-ADHealthReport {
     $body += "<h2>FSMO Role Health</h2>"
     $body += ($fsmoResults | ConvertTo-Html -Fragment)
 
-    $allResults = @($replicationResults) + @($dnsResults) + @($fsmoResults)
+    $body += "<h2>SYSVOL Replication Health</h2>"
+    $body += ($sysvolResults | ConvertTo-Html -Fragment)
+
+    $allResults = @($replicationResults) + @($dnsResults) + @($fsmoResults) + @($sysvolResults)
     $issueCount = ($allResults | Where-Object { $_.Status -ne "OK" }).Count
 
     if ($issueCount -gt 0) {
