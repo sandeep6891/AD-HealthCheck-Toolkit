@@ -38,9 +38,11 @@ This makes all five functions available: `Test-ADReplicationHealth`, `Test-ADDNS
 
 **Option B — Import individual scripts:**
 
-    . .\Functions\Test-ADReplicationHealth.ps1
-    . .\Functions\Test-ADDNSHealth.ps1
-    . .\Functions\Test-FSMORoleHealth.ps1
+. .\Functions\Test-ADReplicationHealth.ps1
+. .\Functions\Test-ADDNSHealth.ps1
+. .\Functions\Test-FSMORoleHealth.ps1
+. .\Functions\Test-SysvolReplicationHealth.ps1
+. .\Functions\Send-ADHealthReport.ps1
 
 ## Usage
 
@@ -108,7 +110,7 @@ This makes all five functions available: `Test-ADReplicationHealth`, `Test-ADDNS
 - [x] FSMO role holder health check
 - [x] Combined module (.psm1) for one-line import of all checks
 - [x] Automated email alerting (Send-ADHealthReport)
-- [x] SYSVOL/DFSR replication health check (in progress — see Issue #1)
+- [x] SYSVOL/DFSR replication health check (see Issue #1)
 
 ## Notes
 
