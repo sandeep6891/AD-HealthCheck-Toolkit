@@ -13,6 +13,7 @@ I built this toolkit to make these checks fast and repeatable, so issues get cau
 - ✅ **DNS Zone/Record Validation** — checks SRV records, A records, PTR consistency, and AD-integrated zone configuration
 - ✅ **FSMO Role Health Check** — verifies all 5 FSMO role holders are assigned, online, and reachable
 - ✅ **Automated Email Reporting** — runs all three checks and emails a combined HTML report, ideal for scheduled monitoring
+- ✅ **SYSVOL/DFSR Replication Check** — flags DFSR backlog, SYSVOL content drift across DCs, and legacy FRS migration state
 
 ## Requirements
 
@@ -21,7 +22,8 @@ I built this toolkit to make these checks fast and repeatable, so issues get cau
 - DnsServer PowerShell module (RSAT-DNS-Server feature) — required for DNS health checks
 - Read access to AD replication metadata, DNS zones, and forest/domain configuration (typically Domain Admin or delegated permissions)
 - SMTP relay access (for Send-ADHealthReport email functionality)
-  
+- DFSR management tools (dfsrdiag.exe) — required for SYSVOL replication checks
+    
 ## Installation
 
 Clone this repository or download the scripts directly:
@@ -32,7 +34,7 @@ Clone this repository or download the scripts directly:
 
     Import-Module .\AD-HealthCheck-Toolkit.psm1
 
-This makes all four functions available: `Test-ADReplicationHealth`, `Test-ADDNSHealth`, `Test-FSMORoleHealth`, `Send-ADHealthReport`.
+This makes all five functions available: `Test-ADReplicationHealth`, `Test-ADDNSHealth`, `Test-FSMORoleHealth`, `Test-SysvolReplicationHealth`, `Send-ADHealthReport`.
 
 **Option B — Import individual scripts:**
 
@@ -77,6 +79,15 @@ This makes all four functions available: `Test-ADReplicationHealth`, `Test-ADDNS
 **With SSL/custom port (e.g., Office 365):**
 
     Send-ADHealthReport -SmtpServer "smtp.office365.com" -From "adhealth@contoso.com" -To "it-team@contoso.com" -SmtpPort 587 -UseSsl
+    
+**SYSVOL replication health check:**
+
+    Test-SysvolReplicationHealth
+
+**With HTML report export:**
+
+    Test-SysvolReplicationHealth -OutputPath "C:\Reports\SysvolHealth.html"
+    
 
 ## Sample Output
 
@@ -97,12 +108,11 @@ This makes all four functions available: `Test-ADReplicationHealth`, `Test-ADDNS
 - [x] FSMO role holder health check
 - [x] Combined module (.psm1) for one-line import of all checks
 - [x] Automated email alerting (Send-ADHealthReport)
-- [ ] SYSVOL/DFSR replication health check (in progress — see Issue #1)
+- [x] SYSVOL/DFSR replication health check (in progress — see Issue #1)
 
 ## Notes
 
-This is an evolving project — feedback, issues, and PRs are welcome. Future ideas include 
-Group Policy health checks and a scheduled-task/reporting wrapper for automated monitoring.
+This is an evolving project — feedback, issues, and PRs are welcome. The SYSVOL/DFSR check was added based on real feedback from the community (see Issue #1). Future ideas include Group Policy health checks and a scheduled-task/reporting wrapper for automated monitoring.
 
 ## License
 
