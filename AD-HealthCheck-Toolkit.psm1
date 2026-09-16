@@ -8,6 +8,7 @@
       - Test-ADReplicationHealth
       - Test-ADDNSHealth
       - Test-FSMORoleHealth
+      - Test-SysvolReplicationHealth
       - Send-ADHealthReport
 
 .NOTES
@@ -44,5 +45,6 @@ Export-ModuleMember -Function @(
     'Test-ADReplicationHealth',
     'Test-ADDNSHealth',
     'Test-FSMORoleHealth',
+    'Test-SysvolReplicationHealth',
     'Send-ADHealthReport'
 )
