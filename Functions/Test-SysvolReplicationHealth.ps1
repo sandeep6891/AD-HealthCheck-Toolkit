@@ -3,12 +3,8 @@
     Checks SYSVOL replication health via DFSR (or legacy FRS) across domain controllers.
 
 .DESCRIPTION
-    This function checks the health of SYSVOL replication, which is responsible for
-    keeping Group Policy Objects and logon scripts consistent across all domain
-    controllers. It reports on DFSR replication backlog per DC, detects whether the
-    domain is still using legacy FRS instead of DFSR, and flags DCs where SYSVOL
-    content appears out of sync. SYSVOL drift is a common, easy-to-miss cause of
-    "this Group Policy setting applies on some machines but not others" symptoms.
+    This function checks the health of SYSVOL replication, which is responsible for keeping Group Policy Objects and logon scripts consistent across all domain controllers. It reports on DFSR replication backlog per DC, detects whether the
+    domain is still using legacy FRS instead of DFSR, and flags DCs where SYSVOL content appears out of sync. SYSVOL drift is a common, easy-to-miss cause of "this Group Policy setting applies on some machines but not others" symptoms.
 
 .PARAMETER OutputPath
     Optional path to export an HTML report. If omitted, results are only shown in console.
@@ -56,7 +52,6 @@ function Test-SysvolReplicationHealth {
 
     $results = @()
 
-    # --- Check 1: Detect legacy FRS vs DFSR migration state ---
     Write-Verbose "Checking SYSVOL replication migration state (FRS vs DFSR)..."
     try {
         $ntfrsMigration = Get-ADObject -Identity "CN=DFSR-GlobalSettings,CN=System,$($domain.DistinguishedName)" -Properties msDFSR-Flags -ErrorAction Stop
@@ -77,7 +72,6 @@ function Test-SysvolReplicationHealth {
         Detail    = "$migrationDetail (State: $migrationState)"
     }
 
-    # --- Check 2: DFSR replication backlog per DC ---
     Write-Verbose "Checking DFSR replication backlog per domain controller..."
     foreach ($dc in $domainControllers) {
         try {
@@ -113,7 +107,6 @@ function Test-SysvolReplicationHealth {
         }
     }
 
-    # --- Check 3: SYSVOL content consistency across DCs (file/folder count comparison) ---
     Write-Verbose "Checking SYSVOL content consistency across domain controllers..."
     $sysvolCounts = @()
 
@@ -146,7 +139,7 @@ function Test-SysvolReplicationHealth {
 
             if ($entry.Count -ne [int]$baseline) {
                 $status = "MISMATCH"
-                $detail = "$($entry.Count) items under Policies, but majority baseline is $baseline — possible SYSVOL drift."
+                $detail = "$($entry.Count) items under Policies, but majority baseline is $baseline - possible SYSVOL drift."
             }
 
             $results += [PSCustomObject]@{
@@ -158,7 +151,6 @@ function Test-SysvolReplicationHealth {
         }
     }
 
-    # --- Console summary ---
     $issues = $results | Where-Object { $_.Status -in @("BACKLOG", "MISMATCH", "ERROR", "REVIEW") }
 
     Write-Host "`n=== SYSVOL Replication Health Summary ===" -ForegroundColor Cyan
@@ -174,20 +166,12 @@ function Test-SysvolReplicationHealth {
         Write-Host "No SYSVOL replication issues detected." -ForegroundColor Green
     }
 
-    # --- Optional HTML export ---
     if ($OutputPath) {
-        $htmlHeader = @"
-<style>
-    body { font-family: Segoe UI, Arial, sans-serif; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
-    th { background-color: #2c3e50; color: white; }
-    tr.OK { background-color: #eafaf1; }
-    tr.BACKLOG, tr.MISMATCH, tr.ERROR { background-color: #fdecea; }
-    tr.REVIEW { background-color: #fff8e1; }
-</style>
-"@
-        $htmlBody = $results | ConvertTo-Html -Head $htmlHeader -Title "SYSVOL Replication Health Report - $(Get-Date)" -PreContent "<h2>SYSVOL Replication Health Report</h2><p>Domain: $($domain.DNSRoot)</p><p>Generated: $(Get-Date)</p>"
+        $reportTitle = "SYSVOL Replication Health Report - $(Get-Date)"
+        $htmlHeader = "<style>body { font-family: Segoe UI, Arial, sans-serif; } table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; } th { background-color: #2c3e50; color: white; } tr.OK { background-color: #eafaf1; } tr.BACKLOG, tr.MISMATCH, tr.ERROR { background-color: #fdecea; } tr.REVIEW { background-color: #fff8e1; }</style>"
+        $preContent = "<h2>SYSVOL Replication Health Report</h2><p>Domain: $($domain.DNSRoot)</p><p>Generated: $(Get-Date)</p>"
+
+        $htmlBody = $results | ConvertTo-Html -Head $htmlHeader -Title $reportTitle -PreContent $preContent
         $htmlBody | Out-File -FilePath $OutputPath -Encoding UTF8
         Write-Host "`nHTML report saved to: $OutputPath" -ForegroundColor Cyan
     }
