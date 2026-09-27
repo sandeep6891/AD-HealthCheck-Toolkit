@@ -1,7 +1,7 @@
 @{
     # Module info
     RootModule        = 'AD-HealthCheck-Toolkit.psm1'
-    ModuleVersion      = '1.2.0'
+    ModuleVersion      = '1.2.1'
     GUID               = 'bee307ac-009c-457c-a50f-f12a932720db'
     Author             = 'Sandeep Kumar Reddy Lingampalli'
     Copyright          = '(c) 2026 Sandeep Kumar Reddy Lingampalli. All rights reserved.'
@@ -30,7 +30,7 @@
             Tags         = @('ActiveDirectory', 'DNS', 'FSMO', 'Replication', 'SysAdmin', 'Monitoring', 'Health-Check', 'Windows')
             LicenseUri   = 'https://github.com/sandeep6891/AD-HealthCheck-Toolkit/blob/main/LICENSE'
             ProjectUri   = 'https://github.com/sandeep6891/AD-HealthCheck-Toolkit'
-            ReleaseNotes = 'v1.2.0: Added Test-SysvolReplicationHealth (DFSR backlog, SYSVOL content consistency, FRS/DFSR migration state) based on community feedback via Issue #1. Now included in Send-ADHealthReport combined email report.'
+            ReleaseNotes = 'v1.2.1: Fixed a syntax error in Test-SysvolReplicationHealth that caused module import to fail. Found and reported via real-world testing feedback.'
         }
     }
 }
